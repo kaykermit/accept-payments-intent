@@ -1,79 +1,48 @@
 # Accepting a card payment
 
-Cards are one of the most popular ways to pay online. Stripe offers several ways to accept card payments, depending on your business needs.
-
-If you accept cards in regions like Europe and India, you will need to handle requests from banks to authenticate a purchase (commonly known as 3DS or OTP) and can choose between our `using-webhooks` and `without-webhooks` integrations.
-
-If you only accept cards from U.S. and Canadian customers, you can use our integration that declines any bank requests for authentication but is much easier to integrate.
-
-Read more about cards on Stripe in [our docs](https://stripe.com/docs/payments/cards/overview).
-
-<!-- prettier-ignore -->
-|     | Using webhooks | Without webhooks | Declining on card authentication |
-:--- | :--- | :--- | :---
-**Recommended for** | Businesses with a global customer base who want to add other payment methods  | Businesses with a global customer base who only want to accept cards and don't want to use webhooks  | Businesses who only have customers in the U.S. & Canada |
-**Bank authentication requests** | Automatically handles, no need for extra code  | Requires extra code to handle authentication  | Declines any payments that require authentication |
-**Payment flow** | Server -> Client | Client -> Server -> Client -> Server | Client -> Server |
-**Webhooks for post-payment fulfillment** | Recommended (scales better to future payment method) | Optional | Optional |
+This is a Stripe integration of Payment Intents - One-time Payments.
+It includes `using-webhooks` integration, which enables accepting cards issued in regions outside of U.S. and Canada, where you will need to handle requests from banks to authenticate a purchase (commonly known as 3DS or OTP).
 
 
-**Demo**
 
-Web: See a [hosted version](https://hhqhp.sse.codesandbox.io/) of the sample or fork a copy on [codesandbox.io](https://codesandbox.io/s/stripe-sample-accept-a-card-payment-hhqhp)
+|     | Using webhooks 
+:--- | :---
+**Recommended for** | Businesses with a global customer base who want to add other payment methods  
+**Bank authentication requests** | Automatically handles, no need for extra code  
+**Payment flow** | Server -> Client 
+**Webhooks for post-payment fulfillment** | Recommended (scales better to future payment method) 
 
-Mobile: [Run the sample locally](#how-to-run-locally)
 
-All the samples run in test mode -- use the below test card numbers with any CVC code + a future expiration date to test for certain behavior.
+**Test**
 
-<!-- prettier-ignore -->
-| Test card number     | Using webhooks | Without webhooks | Declining on card authentication |
-:--- | :--- | :--- | :---
-**4242424242424242** | Succeeds  | Succeeds  | Succeeds |
-**4000000000003220** | Displays a pop-up modal to authenticate  | Displays a pop-up modal to authenticate  | Declines and asks customer for new card |
+Use the below test card numbers with any CVC code + a future expiration date to test for certain behavior.
 
-Read more about testing on Stripe at https://stripe.com/docs/testing.
-
-<img src="./web-elements-card-payment.gif" alt="Accepting a card payment" align="center">
+| Test card number     | Using webhooks
+:--- | :---
+**4242424242424242** | Succeeds 
+**4000000000003220** | Displays a pop-up modal to authenticate 
 
 
 ## How to run locally
 
-This sample includes several implementations of the same server in Node, Node Typescript, Ruby, Python, Java, PHP, and PHP (Slim) for the two integration types: [using-webhooks](/using-webhooks) and [without-webhooks](/without-webhooks).
+This code includes a Node implementation of Accept Payment Intents [using-webhooks](/using-webhooks) integration.
 
-Follow the steps below to run locally.
+Follow these proposed steps below to run locally.
 
-**1. Clone and configure the sample**
+**1. Clone and configure the project using Stripe CLI**
 
 The Stripe CLI is the fastest way to clone and configure a sample to run locally.
 
 **Using the Stripe CLI**
 
-If you haven't already installed the CLI, follow the [installation steps](https://github.com/stripe/stripe-cli#installation) in the project README. The CLI is useful for cloning samples and locally testing webhooks and Stripe integrations.
+If you haven't already installed the CLI, follow the [installation steps](https://github.com/stripe/stripe-cli#installation) on Stripe. The CLI is useful for cloning and locally testing webhooks and Stripe integrations.
 
-In your terminal shell, run the Stripe CLI command to clone the sample:
-
+In your terminal shell, run the Stripe CLI command to clone this project. Configure your .env config file with your Stripe API keys. To get the Stripe API Keys, log in to your Stripe account in order to run this project.
 ```
-stripe samples create accept-a-card-payment
-```
-
-The CLI will walk you through picking your integration type, server and client languages, and configuring your .env config file with your Stripe API keys.
-
-**Installing and cloning manually**
-
-If you do not want to use the Stripe CLI, you can manually clone and configure the sample yourself:
-
-```
-git clone https://github.com/stripe-samples/accept-a-card-payment
+stripe login
 ```
 
-Copy the .env.example file into a file named .env in the folder of the server you want to use. For example:
-
-```
-cp .env.example using-webhooks/server/node/.env
-```
-
-You will need a Stripe account in order to run the demo. Once you set up your account, go to the Stripe [developer dashboard](https://stripe.com/docs/development#api-keys) to find your API keys.
-
+Once you set up or log in to your account, go to the Stripe [developer dashboard](https://stripe.com/docs/development#api-keys) to find your API keys.
 ```
 STRIPE_PUBLISHABLE_KEY=<replace-with-your-publishable-key>
 STRIPE_SECRET_KEY=<replace-with-your-secret-key>
@@ -83,17 +52,15 @@ STRIPE_SECRET_KEY=<replace-with-your-secret-key>
 
 **2. Follow the server instructions on how to run:**
 
-Pick the server language you want and follow the instructions in the server folder README on how to run.
-
-For example, if you want to run the Node server in `using-webhooks`:
+Run the Node server in `accept-payments-intent`:
 
 ```
-cd using-webhooks/server/node # there's a README in this folder with instructions
+cd accept-payments-intent/server
 npm install
 npm start
 ```
 
-**3. [Optional] Run a webhook locally:**
+**3. Run a webhook locally:**
 
 If you want to test the `using-webhooks` integration with a local webhook on your machine, you can use the Stripe CLI to easily spin one up.
 
@@ -109,29 +76,16 @@ You should see events logged in the console where the CLI is running.
 
 When you are ready to create a live webhook endpoint, follow our guide in the docs on [configuring a webhook endpoint in the dashboard](https://stripe.com/docs/webhooks/setup#configure-webhook-settings).
 
-**4. [Mobile clients] Set up the client app:**
+**4. Set up the web client app:**
 
-Finally, choose a mobile client implementation and follow the instruction in the app's README (e.g. `using-webhooks/client/ios/README.md`) to run.
+Launch the web client implementation by typing in the local host web address in a browser to run.
 
 When the app is running, use `4242424242424242` as a test card number with any CVC code + a future expiration date.
 
-Use the `4000000000003220` test card number to trigger a 3D Secure challenge flow.
+Use the `4000000000003220` test card number to trigger a 3D Secure challenge flow. You should see all tests listed here pass
+t https://stripe.com/docs/testing.
 
-Read more about testing on Stripe at https://stripe.com/docs/testing.
 
-## FAQ
+## Author
 
-Q: Why did you pick these frameworks?
-
-A: We chose the most minimal framework to convey the key Stripe calls and concepts you need to understand. These demos are meant as an educational tool that helps you roadmap how to integrate Stripe within your own system independent of the framework.
-
-Q: Can you show me how to build X?
-
-A: We are always looking for new sample ideas, please email dev-samples@stripe.com with your suggestion!
-
-## Author(s)
-
-[@adreyfus-stripe](https://twitter.com/adrind)
-[@bg-stripe](https://github.com/bg-stripe)
-[@yuki-stripe](https://github.com/yuki-stripe)
-[@thorsten-stripe](https://twitter.com/thorwebdev)
+kaykermit
