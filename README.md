@@ -29,26 +29,14 @@ This code includes a Node implementation of Accept Payment Intents [using-webhoo
 
 Follow these proposed steps below to run locally.
 
-**1. Clone and configure the project using Stripe CLI**
+**1. Clone or download the project**
 
-The Stripe CLI is the fastest way to clone and configure a sample to run locally.
-
-**Using the Stripe CLI**
-
-If you haven't already installed the CLI, follow the [installation steps](https://github.com/stripe/stripe-cli#installation) on Stripe. The CLI is useful for cloning and locally testing webhooks and Stripe integrations.
-
-In your terminal shell, run the Stripe CLI command to clone this project. Configure your .env config file with your Stripe API keys. To get the Stripe API Keys, log in to your Stripe account in order to run this project.
-```
-stripe login
-```
-
-Once you set up or log in to your account, go to the Stripe [developer dashboard](https://stripe.com/docs/development#api-keys) to find your API keys.
+To get the Stripe API Keys, crate and log in to your Stripe account in order to run this project.
+Once you log in to your account, go to the Stripe [developer dashboard](https://stripe.com/docs/development#api-keys) to find your API keys.
 ```
 STRIPE_PUBLISHABLE_KEY=<replace-with-your-publishable-key>
 STRIPE_SECRET_KEY=<replace-with-your-secret-key>
 ```
-
-`STATIC_DIR` tells the server where the client files are located and does not need to be modified unless you move the server files.
 
 **2. Follow the server instructions on how to run:**
 
@@ -62,7 +50,7 @@ npm start
 
 **3. Run a webhook locally:**
 
-If you want to test the `using-webhooks` integration with a local webhook on your machine, you can use the Stripe CLI to easily spin one up.
+If you want to test the integration with a local webhook on your machine, you can use the Stripe CLI to easily spin one up.
 
 First [install the CLI](https://stripe.com/docs/stripe-cli) and [link your Stripe account](https://stripe.com/docs/stripe-cli#link-account).
 
