@@ -1,7 +1,7 @@
 # Accepting a card payment
 
 This is a Stripe integration of Payment Intents - One-time Payments.
-It includes `using-webhooks` integration, which enables accepting cards issued in regions outside of U.S. and Canada, where you will need to handle requests from banks to authenticate a purchase (commonly known as 3DS or OTP).
+It uses a webhooks integration to enable accepting cards (issued in regions outside of U.S. and Canada) that may require extra authentication (commonly known as 3DS or OTP). Cards issued in U.S. and Canada do not usually need this extra authentication.
 
 
 
@@ -11,6 +11,7 @@ It includes `using-webhooks` integration, which enables accepting cards issued i
 **Bank authentication requests** | Automatically handles, no need for extra code  
 **Payment flow** | Server -> Client 
 **Webhooks for post-payment fulfillment** | Recommended (scales better to future payment method) 
+
 
 
 **Test**
@@ -25,14 +26,16 @@ Use the below test card numbers with any CVC code + a future expiration date to 
 
 ## How to run locally
 
-This code includes a Node implementation of Accept Payment Intents [using-webhooks](/using-webhooks) integration.
+This project is a Node implementation of Accept Payment Intents integration.
 
 Follow these proposed steps below to run locally.
 
 **1. Clone or download the project**
 
-To get the Stripe API Keys, crate and log in to your Stripe account in order to run this project.
-Once you log in to your account, go to the Stripe [developer dashboard](https://stripe.com/docs/development#api-keys) to find your API keys.
+Clone or download the project. Then to get the required Stripe API Keys, create and log in to your Stripe account. 
+
+Go to the Stripe [developer dashboard](https://stripe.com/docs/development#api-keys) to find your API keys.
+
 ```
 STRIPE_PUBLISHABLE_KEY=<replace-with-your-publishable-key>
 STRIPE_SECRET_KEY=<replace-with-your-secret-key>
@@ -50,9 +53,15 @@ npm start
 
 **3. Run a webhook locally:**
 
-If you want to test the integration with a local webhook on your machine, you can use the Stripe CLI to easily spin one up.
+To test the integration with a local webhook on your machine, use Stripe CLI. 
 
-First [install the CLI](https://stripe.com/docs/stripe-cli) and [link your Stripe account](https://stripe.com/docs/stripe-cli#link-account).
+First [install the Stripe CLI](https://stripe.com/docs/stripe-cli) and [link your Stripe account](https://stripe.com/docs/stripe-cli#link-account). 
+
+```
+stripe login
+```
+
+Then get the webhook secret key by running this command.
 
 ```
 stripe listen --forward-to localhost:4242/webhook
@@ -62,16 +71,18 @@ The CLI will print a webhook secret key to the console. Set `STRIPE_WEBHOOK_SECR
 
 You should see events logged in the console where the CLI is running.
 
-When you are ready to create a live webhook endpoint, follow our guide in the docs on [configuring a webhook endpoint in the dashboard](https://stripe.com/docs/webhooks/setup#configure-webhook-settings).
 
 **4. Set up the web client app:**
 
 Launch the web client implementation by typing in the local host web address in a browser to run.
 
-When the app is running, use `4242424242424242` as a test card number with any CVC code + a future expiration date.
+When the app is running, run the tests stated earlier:
 
-Use the `4000000000003220` test card number to trigger a 3D Secure challenge flow. You should see all tests listed here pass
-t https://stripe.com/docs/testing.
+Use `4242424242424242` as a test card number with any CVC code + a future expiration date.
+
+Use the `4000000000003220` test card number to trigger a 3D Secure challenge flow. 
+
+You should see all tests listed here pass https://stripe.com/docs/testing.
 
 
 ## Author
