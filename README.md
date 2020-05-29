@@ -28,13 +28,15 @@ Use the below test card numbers with any CVC code + a future expiration date to 
 
 This project is a Node implementation of Accept Payment Intents integration.
 
-Follow these proposed steps below to run locally.
+Follow these steps to run locally.
 
 **1. Clone or download the project**
 
-Clone or download the project. Open the project folder. You need to rename a file called envfile in the server folder to **.env** and add the Stripe API keys and Webhook Secret to this .env file before you run the project.
+Clone or download the project. Open the project folder. You need to rename a file called envfile in the server folder to **.env** and add the Stripe API keys and Webhook Secret to this file (from steps 2 and 3 below) before you run the project. More on that below.
 
-To get the required Stripe API Keys, create and log in to your Stripe account. 
+**2. Get the Stripe API keys:**
+
+To get the required Stripe API keys, create and log in to your Stripe account. 
 
 Go to the Stripe [developer dashboard](https://stripe.com/docs/development#api-keys) to find your API keys.
 
@@ -43,17 +45,17 @@ STRIPE_PUBLISHABLE_KEY=<replace-with-your-publishable-key>
 STRIPE_SECRET_KEY=<replace-with-your-secret-key>
 ```
 
-**2. Run a webhook locally:**
+**3. Set up a webhook forwarder:**
 
-To get the required Webhook Secret that will enable you to test the Stripe integration on your machine, you need to use Stripe CLI. 
+To run the sample you will need to receive events from Stripe. To do this on your local machine, you can use the strip CLI to forward events to your local server endpoint.
 
-Follow [steps 1 and 2 on this link](https://stripe.com/docs/stripe-cli) to install Stripe CLI and link your Stripe account
+Follow [steps 1 and 2 on this link](https://stripe.com/docs/stripe-cli) to install stripe CLI and link your Stripe account
 
 ```
 stripe login
 ```
 
-Then get the webhook secret key by running this command.
+Then instruct the stripe CLI to forward webhooks. You will need a webhook secret that the stripe command will provide you when you run it as below. 
 
 ```
 stripe listen --forward-to localhost:4242/webhook
@@ -61,10 +63,8 @@ stripe listen --forward-to localhost:4242/webhook
 
 The CLI will print a webhook secret key to the console. Go back to your .env file, and set `STRIPE_WEBHOOK_SECRET` to this value in the .env file.
 
-You should see events logged in the console where the CLI is running.
 
-
-**3. Follow these server instructions on how to run:**
+**4. Follow these server instructions on how to run:**
 
 Run the Node server in `accept-payments-intent`:
 
@@ -75,7 +75,7 @@ npm start
 ```
 
 
-**4. Set up the web client app:**
+**5. Set up the web client app:**
 
 Launch the web client implementation by typing in the local host web address in a browser to run.
 
