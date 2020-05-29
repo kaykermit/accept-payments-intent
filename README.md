@@ -32,7 +32,9 @@ Follow these proposed steps below to run locally.
 
 **1. Clone or download the project**
 
-Clone or download the project. Then to get the required Stripe API Keys, create and log in to your Stripe account. 
+Clone or download the project. Open the project folder. You need to rename a file called envfile in the server folder to **.env** and add the Stripe API keys and Webhook Secret to this .env file before you run the project.
+
+To get the required Stripe API Keys, create and log in to your Stripe account. 
 
 Go to the Stripe [developer dashboard](https://stripe.com/docs/development#api-keys) to find your API keys.
 
@@ -41,21 +43,11 @@ STRIPE_PUBLISHABLE_KEY=<replace-with-your-publishable-key>
 STRIPE_SECRET_KEY=<replace-with-your-secret-key>
 ```
 
-**2. Follow the server instructions on how to run:**
+**2. Run a webhook locally:**
 
-Run the Node server in `accept-payments-intent`:
+To get the required Webhook Secret that will enable you to test the Stripe integration on your machine, you need to use Stripe CLI. 
 
-```
-cd accept-payments-intent/server
-npm install
-npm start
-```
-
-**3. Run a webhook locally:**
-
-To test the integration with a local webhook on your machine, use Stripe CLI. 
-
-First [install the Stripe CLI](https://stripe.com/docs/stripe-cli) and [link your Stripe account](https://stripe.com/docs/stripe-cli#link-account). 
+Follow [steps 1 and 2 on this link](https://stripe.com/docs/stripe-cli) to install Stripe CLI and link your Stripe account
 
 ```
 stripe login
@@ -67,9 +59,20 @@ Then get the webhook secret key by running this command.
 stripe listen --forward-to localhost:4242/webhook
 ```
 
-The CLI will print a webhook secret key to the console. Set `STRIPE_WEBHOOK_SECRET` to this value in your .env file.
+The CLI will print a webhook secret key to the console. Go back to your .env file, and set `STRIPE_WEBHOOK_SECRET` to this value in the .env file.
 
 You should see events logged in the console where the CLI is running.
+
+
+**3. Follow these server instructions on how to run:**
+
+Run the Node server in `accept-payments-intent`:
+
+```
+cd accept-payments-intent/server
+npm install
+npm start
+```
 
 
 **4. Set up the web client app:**
@@ -82,7 +85,7 @@ Use `4242424242424242` as a test card number with any CVC code + a future expira
 
 Use the `4000000000003220` test card number to trigger a 3D Secure challenge flow. 
 
-You should see all tests listed here pass https://stripe.com/docs/testing.
+You should see all tests listed here pass.
 
 
 ## Author
